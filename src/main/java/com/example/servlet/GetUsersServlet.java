@@ -1,5 +1,7 @@
 package com.example.servlet;
 
+import com.example.Warehouse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,12 +12,12 @@ import java.io.PrintWriter;
 
 @WebServlet("/users")
 public class GetUsersServlet extends HttpServlet {
+    Warehouse warehouse = Warehouse.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.println("Hello, World\n");
-//        printWriter.write("Hello!");
-//        printWriter.close();
+        req.setAttribute("users", warehouse.getUsers());
+
+        req.getRequestDispatcher("jsp/users.jsp").forward(req, resp);
     }
 }
